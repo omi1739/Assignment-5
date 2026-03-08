@@ -27,10 +27,8 @@
                 <p class="text-2xl font-bold">GitHub Issues Tracker</p>
             </div>
             <div class="flex items-center gap-2">
-                <i class="fa-brands fa-sistrix"></i>
-                <input type="text" placeholder="Search issues..." class="input input-bordered w-24 md:w-auto" />
-                <button class="btn btn-primary flex items-center gap-2"><i class="fa-solid fa-plus"></i> New
-                    Issue</button>
+                <input id="input-search" type="text" placeholder="Search issues..." class="input" required />
+                <button id="btn-search" class="btn btn-primary flex items-center gap-2"> <i class="fa-brands fa-sistrix"></i> Search</button>
             </div>
         </nav>
     </header>
@@ -88,7 +86,7 @@
             <div class="modal-action">
                 <form method="dialog">
 
-                    <button class="btn btn-primary">Close</button>
+                    <button class="btn btn-primary mt-5">Close</button>
                 </form>
             </div>
         </div>
