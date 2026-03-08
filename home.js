@@ -6,31 +6,57 @@ const allButton = document.getElementById('all-button');
 const closedButton = document.getElementById('closed-button');
 
 const allIssues = () => {
+    loading(true)
     const url = 'https://phi-lab-server.vercel.app/api/v1/lab/issues';
     fetch(url).
         then((res) => res.json()).
         then(data => {
             issueData = data.data;
             displayCardsinAll(issueData)
+            loading(false)
         });
 }
 
 allButton.addEventListener('click', allIssues);
 
 const openIssue = () => {
-    displayOpenCards(issueData);
+    loading(true)
+    setTimeout(() => {
+        displayOpenCards(issueData);
+        loading(false)
+    }, 50)
+
+
 
 }
 
 openButton.addEventListener('click', openIssue);
 
 const closedIssue = () => {
-    displayClosedCards(issueData);
+    loading(true)
+    setTimeout(() => {
+        displayClosedCards(issueData);
+        loading(false)
+    },50)
+
 }
 
 closedButton.addEventListener('click', closedIssue);
 
+const loading = (status) => {
+    if (status === true) {
+        document.getElementById('loading').classList.remove('hidden');
+        document.getElementById('cards-container').classList.add('hidden');
+    }
+    else {
+        document.getElementById('cards-container').classList.remove('hidden');
+        document.getElementById('loading').classList.add('hidden');
+    }
+}
+
+
 const displayOpenCards = (openCards) => {
+
 
 
     allButton.classList.remove('btn-primary');
@@ -84,6 +110,8 @@ const displayOpenCards = (openCards) => {
             return `<button class ="rounded-xl px-3 py-1 border ${color}"> ${icon} ${label}</button>`
         }).join(' ');
 
+
+
         divOpenCard.innerHTML = `
 
     
@@ -123,6 +151,7 @@ const displayOpenCards = (openCards) => {
         cardsContainer.append(divOpenCard);
 
     })
+
 }
 
 
@@ -178,6 +207,9 @@ const displayClosedCards = (closedCards) => {
 
             return `<button class ="rounded-xl px-3 py-1 border ${color}"> ${icon} ${label}</button>`
         }).join(' ');
+
+
+
 
         divClosedCard.innerHTML = `
 
@@ -277,6 +309,9 @@ const clickAllCard = (id) => {
 
         return `<div class ="rounded-xl px-3 py-1 border ${color}"> ${icon} ${label}</div>`
     }).join(' ');
+
+
+
 
     detailsBox.innerHTML = `
         <h1 class="text-2xl font-bold mb-4">${card.title}</h1>
@@ -421,21 +456,21 @@ const displayCardsinAll = (cards) => {
 
 allIssues();
 
-document.getElementById('btn-search').addEventListener('click', ()=>{
+document.getElementById('btn-search').addEventListener('click', () => {
     const input = document.getElementById('input-search');
     const searchValu = input.value.trim().toLowerCase();
     console.log(searchValu);
 
     fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues').
-    then(res => res.json()).
-    then((data)=>{
-        const allCards = data.data;
+        then(res => res.json()).
+        then((data) => {
+            const allCards = data.data;
 
-        const filterCards = allCards.filter((card) =>
-            card.title.toLowerCase().includes(searchValu)
-        );
-        console.log(filterCards);
-        displayCardsinAll(filterCards)
-    })
-    
+            const filterCards = allCards.filter((card) =>
+                card.title.toLowerCase().includes(searchValu)
+            );
+            console.log(filterCards);
+            displayCardsinAll(filterCards)
+        })
+
 })
